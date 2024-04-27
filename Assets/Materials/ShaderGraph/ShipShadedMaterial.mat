@@ -26,6 +26,7 @@ Material:
     - _BUILTIN_QueueOffset: 0
     - _opacity: 1
     m_Colors:
+    - _color: {r: 0, g: 0, b: 0, a: 0}
     - _colot: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &393971099441291237
