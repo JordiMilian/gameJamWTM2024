@@ -20,12 +20,14 @@ public class ShipHealth : MonoBehaviour
     {
         if(other.gameObject.CompareTag("ghost"))
         {
-            GameEvents.Instance.OnHitEnemy?.Invoke();
+            if(!isInvulnerable)
+            {
+                GameEvents.Instance.OnHitEnemy?.Invoke();
+            }
         }
     }
     public void TouchedEnemy()
     {
-        if (isInvulnerable) { return; }
         StartCoroutine(InvulnerableCooldown());
         RemoveHealth(1);
     }

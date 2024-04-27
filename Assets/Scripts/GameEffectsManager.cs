@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameEffectsManager : MonoBehaviour
 {
     [SerializeField] GameObject ShipMeshRoot;
+    [SerializeField] Color flashColor;
+    [SerializeField] float flashDelay;
 
     MeshRenderer[] meshRenderers;
     private void OnEnable()
@@ -23,7 +26,9 @@ public class GameEffectsManager : MonoBehaviour
     }
     IEnumerator FlashMaterials(MeshRenderer renderer)
     {
-        renderer.
+
+        renderer.material.SetFloat("_opacity", 0);
+        yield return null;
     }
      
 }
