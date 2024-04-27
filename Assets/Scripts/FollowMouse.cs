@@ -39,7 +39,7 @@ public class FollowMouse : MonoBehaviour
     {
         overtimeSpeed = minMaxOvertimeSpeed.x;
     }
-    private void Update()
+   /* private void Update()
     {
         mousePositionInPlane = GetRaycastPoint();
         Vector3 vectorToPoint = mousePositionInPlane - transform.position;
@@ -57,7 +57,7 @@ public class FollowMouse : MonoBehaviour
         Vector3 newTargetPos = (directionToPoint * currentTotalSpeed * Time.deltaTime);
         ShipRb.position = Vector3.Lerp(transform.position, transform.position + newTargetPos, 0.3f);
        
-    }
+    }*/
     Vector3 GetRaycastPoint()
     {
         rawMousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
@@ -77,11 +77,29 @@ public class FollowMouse : MonoBehaviour
 
 
     }
-    private void FixedUpdate()
+    private void LateUpdate()
     {
-        
-        //currentTotalSpeed = overtimeSpeed * normalizedDistanceToMouse;
-        //ShipRb.AddForce(directionToMouse * currentTotalSpeed);
+
+        mousePositionInPlane = GetRaycastPoint();
+        Vector3 vectorToPoint = mousePositionInPlane - transform.position;
+
+        distanceToPoint = vectorToPoint.magnitude;
+        directionToPoint = (vectorToPoint).normalized;
+
+        overtimeSpeed = Mathf.Lerp(overtimeSpeed, minMaxOvertimeSpeed.y, ShipAcceleration);
+        //normalizedDistanceToMouse = Mathf.InverseLerp(minMaxDistanceToMouse.x, minMaxDistanceToMouse.y, distanceToPoint);
+        normalizedOvertimeSpeed = Mathf.InverseLerp(minMaxOvertimeSpeed.x, minMaxOvertimeSpeed.y, overtimeSpeed);
+
+        transform.forward = (Vector3.RotateTowards(transform.forward, directionToPoint, maxRotationSpeed * Time.deltaTime * normalizedOvertimeSpeed, 10f)); //Rotate towards mouse
+
+        //currentTotalSpeed = overtimeSpeed; //* normalizedDistanceToMouse;
+
+        currentTotalSpeed = overtimeSpeed; // * normalizedDistanceToMouse;
+
+        Vector3 newTargetPos = (vectorToPoint * currentTotalSpeed * Time.deltaTime);
+        //ShipRb.position = Vector3.Lerp(transform.position, transform.position + newTargetPos, 0.3f);
+
+        ShipRb.AddForce(directionToPoint * currentTotalSpeed);
         //ShipRb.velocity = directionToPoint * currentTotalSpeed;
 
 
