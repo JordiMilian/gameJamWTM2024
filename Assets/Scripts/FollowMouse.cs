@@ -7,18 +7,19 @@ public class FollowMouse : MonoBehaviour
     [SerializeField] Vector3 rawMousePosition;
     [SerializeField] Rigidbody ShipRb;
     //public Vector3 ShipPosition;
-    Vector3 directionToMouse;
+    Vector3 directionToPoint;
     float overtimeSpeed;
     public Vector2 minMaxOvertimeSpeed;
     public Vector2 minMaxDistanceToMouse;
     public float ShipAcceleration;
-    float distanceToMouse;
+    float distanceToPoint;
     Vector3 lastValidPosition;
     [SerializeField] float maxCollisionForce;
     float normalizedOvertimeSpeed;
     float normalizedDistanceToMouse;
     [SerializeField] float maxRotationSpeed;
     [HideInInspector] public Vector3 mousePositionInPlane;
+    [SerializeField] LayerMask NaveLayerMask;
 
     [SerializeField] float currentTotalSpeed;
     Camera mainCamera;
@@ -40,27 +41,30 @@ public class FollowMouse : MonoBehaviour
     }
     private void Update()
     {
-        mousePositionInPlane = GetDirectionToMove();
-        Vector3 vectorToMouse = mousePositionInPlane - transform.position;
+        mousePositionInPlane = GetRaycastPoint();
+        Vector3 vectorToPoint = mousePositionInPlane - transform.position;
 
-        distanceToMouse = vectorToMouse.magnitude;
-        directionToMouse = (vectorToMouse).normalized;
+        distanceToPoint = vectorToPoint.magnitude;
+        directionToPoint = (vectorToPoint).normalized;
 
         overtimeSpeed = Mathf.Lerp(overtimeSpeed, minMaxOvertimeSpeed.y, ShipAcceleration);
-        normalizedDistanceToMouse = Mathf.InverseLerp(minMaxDistanceToMouse.x, minMaxDistanceToMouse.y, distanceToMouse);
+        //normalizedDistanceToMouse = Mathf.InverseLerp(minMaxDistanceToMouse.x, minMaxDistanceToMouse.y, distanceToPoint);
         normalizedOvertimeSpeed = Mathf.InverseLerp(minMaxOvertimeSpeed.x, minMaxOvertimeSpeed.y, overtimeSpeed);
 
-        Debug.DrawLine(transform.position, transform.position + directionToMouse);
+        transform.forward = (Vector3.RotateTowards(transform.forward, directionToPoint, maxRotationSpeed * Time.deltaTime * normalizedOvertimeSpeed, 10f)); //Rotate towards mouse
 
-        transform.forward = (Vector3.RotateTowards(transform.forward, directionToMouse, maxRotationSpeed * Time.deltaTime * normalizedOvertimeSpeed, 10f)); //Rotate towards mouse
+        currentTotalSpeed = overtimeSpeed; //* normalizedDistanceToMouse;
+        Vector3 newTargetPos = (directionToPoint * currentTotalSpeed * Time.deltaTime);
+        ShipRb.position = Vector3.Lerp(transform.position, transform.position + newTargetPos, 0.3f);
+       
     }
-    Vector3 GetDirectionToMove()
+    Vector3 GetRaycastPoint()
     {
         rawMousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity)) //Recuerda meter en la Layer "Ignore_Raycast" a los objetos que no son de suelo
+        if (Physics.Raycast(ray, out hit)) //Recuerda meter en la Layer "Ignore_Raycast" a los objetos que no son de suelo
         {
             Debug.Log( "hit: "+ hit.transform.name);
             lastValidPosition = hit.point;
@@ -75,9 +79,12 @@ public class FollowMouse : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        currentTotalSpeed = overtimeSpeed * normalizedDistanceToMouse;
-        ShipRb.AddForce(directionToMouse * currentTotalSpeed);
         
+        //currentTotalSpeed = overtimeSpeed * normalizedDistanceToMouse;
+        //ShipRb.AddForce(directionToMouse * currentTotalSpeed);
+        //ShipRb.velocity = directionToPoint * currentTotalSpeed;
+
+
     }
     private void OnCollisionEnter(Collision collision) //reduce speed if collision with wall and bounce out with normal
     {
@@ -87,6 +94,7 @@ public class FollowMouse : MonoBehaviour
             Vector3 collisionNormal = collision.contacts[0].normal;
             ShipRb.AddForce(collisionNormal * maxCollisionForce * normalizedOvertimeSpeed);
         }
+        Debug.Log("hit: " + collision.gameObject.name);
     }
      
 }
