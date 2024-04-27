@@ -547,15 +547,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f8c538b922693e242aafb44af5cc64af, type: 3}
       propertyPath: m_LocalScale.x
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f8c538b922693e242aafb44af5cc64af, type: 3}
       propertyPath: m_LocalScale.y
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f8c538b922693e242aafb44af5cc64af, type: 3}
       propertyPath: m_LocalScale.z
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f8c538b922693e242aafb44af5cc64af, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1587,15 +1587,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rawMousePosition: {x: 0, y: 0, z: 0}
   ShipRb: {fileID: 1288326677}
-  minMaxOvertimeSpeed: {x: 20, y: 500}
-  minMaxDistanceToMouse: {x: 0.5, y: 3}
-  ShipAcceleration: 0.0001
+  minMaxOvertimeSpeed: {x: 30, y: 300}
+  minMaxDistanceToMouse: {x: 0.5, y: 25}
+  ShipAcceleration: 0.02
   maxCollisionForce: 600
   maxRotationSpeed: 300
   mousePositionInPlane: {x: 0, y: 0, z: 0}
   NaveLayerMask:
     serializedVersion: 2
     m_Bits: 0
+  maxSpeedReached: 0
+  speedText: {fileID: 0}
   currentTotalSpeed: 0
 --- !u!4 &1288326674
 Transform:
@@ -2287,6 +2289,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ghostRecorder: {fileID: 1663211935}
+  LapsCompleted: 0
+  lapsToEnd: 10
 --- !u!33 &2032194540
 MeshFilter:
   m_ObjectHideFlags: 0
