@@ -74,8 +74,6 @@ public class FollowMouse : MonoBehaviour
             return lastValidPosition;
         }
         return hit.point;
-
-
     }
     private void LateUpdate()
     {
@@ -85,16 +83,20 @@ public class FollowMouse : MonoBehaviour
 
         distanceToPoint = vectorToPoint.magnitude;
         directionToPoint = (vectorToPoint).normalized;
-
-        overtimeSpeed = Mathf.Lerp(overtimeSpeed, minMaxOvertimeSpeed.y, ShipAcceleration);
-        //normalizedDistanceToMouse = Mathf.InverseLerp(minMaxDistanceToMouse.x, minMaxDistanceToMouse.y, distanceToPoint);
+       
+        
+        normalizedDistanceToMouse = Mathf.InverseLerp(minMaxDistanceToMouse.x, minMaxDistanceToMouse.y, distanceToPoint);
+        if(normalizedDistanceToMouse > 0.7) //Acelerar solo si tienes el raton a tope 
+        {
+            overtimeSpeed = Mathf.Lerp(overtimeSpeed, minMaxOvertimeSpeed.y, ShipAcceleration);
+        }
+       
         normalizedOvertimeSpeed = Mathf.InverseLerp(minMaxOvertimeSpeed.x, minMaxOvertimeSpeed.y, overtimeSpeed);
 
         transform.forward = (Vector3.RotateTowards(transform.forward, directionToPoint, maxRotationSpeed * Time.deltaTime * normalizedOvertimeSpeed, 10f)); //Rotate towards mouse
 
-        //currentTotalSpeed = overtimeSpeed; //* normalizedDistanceToMouse;
 
-        currentTotalSpeed = overtimeSpeed; // * normalizedDistanceToMouse;
+        currentTotalSpeed = overtimeSpeed * normalizedDistanceToMouse;
 
         Vector3 newTargetPos = (vectorToPoint * currentTotalSpeed * Time.deltaTime);
         //ShipRb.position = Vector3.Lerp(transform.position, transform.position + newTargetPos, 0.3f);
@@ -108,7 +110,7 @@ public class FollowMouse : MonoBehaviour
     {
         if(collision.gameObject.tag == "Wall")
         {
-            reduceSpeedPercent(10);
+            reduceSpeedPercent(3);
             Vector3 collisionNormal = collision.contacts[0].normal;
             ShipRb.AddForce(collisionNormal * maxCollisionForce * normalizedOvertimeSpeed);
         }

@@ -21,6 +21,7 @@ public class Ghosts : MonoBehaviour
     public List<GhostClass> GhostsList = new List<GhostClass>();
 
     List<Vector3> RecordedPosition = new List<Vector3>();
+    List<Quaternion> RecordedRotation = new List<Quaternion>();
     [SerializeField] Transform playerShipTf;
     [SerializeField] Transform ghostShipTf;
     [SerializeField] GameObject GhostPrefab;
@@ -35,6 +36,7 @@ public class Ghosts : MonoBehaviour
         if (isRecording)
         {
             RecordedPosition.Add(playerShipTf.position);
+            RecordedRotation.Add(playerShipTf.rotation);
         }
         playGhosts();
     }
@@ -45,6 +47,7 @@ public class Ghosts : MonoBehaviour
             if (!ghost.isReproducing) { continue; }
 
             ghost.GhostTf.position = RecordedPosition[ghost.reproducingIndex];
+            ghost.GhostTf.rotation = RecordedRotation[ghost.reproducingIndex];
             ghost.reproducingIndex++;
             if(ghost.reproducingIndex == RecordedPosition.Count - 1) { ghost.isReproducing = false; }
         }
