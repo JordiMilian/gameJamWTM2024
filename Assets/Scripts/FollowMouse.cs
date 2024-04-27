@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class FollowMouse : MonoBehaviour
@@ -20,6 +21,8 @@ public class FollowMouse : MonoBehaviour
     [SerializeField] float maxRotationSpeed;
     [HideInInspector] public Vector3 mousePositionInPlane;
     [SerializeField] LayerMask NaveLayerMask;
+    public float maxSpeedReached;
+    [SerializeField] TextMeshProUGUI speedText;
 
     [SerializeField] float currentTotalSpeed;
     Camera mainCamera;
@@ -75,6 +78,10 @@ public class FollowMouse : MonoBehaviour
         }
         return hit.point;
     }
+    private void FixedUpdate()
+    {
+        ShipRb.AddForce(directionToPoint * currentTotalSpeed);
+    }
     private void LateUpdate()
     {
 
@@ -86,9 +93,9 @@ public class FollowMouse : MonoBehaviour
        
         
         normalizedDistanceToMouse = Mathf.InverseLerp(minMaxDistanceToMouse.x, minMaxDistanceToMouse.y, distanceToPoint);
-        if(normalizedDistanceToMouse > 0.7) //Acelerar solo si tienes el raton a tope 
+        if(normalizedDistanceToMouse > 0.4f) //Acelerar solo si tienes el raton a tope 
         {
-            overtimeSpeed = Mathf.Lerp(overtimeSpeed, minMaxOvertimeSpeed.y, ShipAcceleration);
+            overtimeSpeed = Mathf.Lerp(overtimeSpeed, minMaxOvertimeSpeed.y, ShipAcceleration * Time.deltaTime);
         }
        
         normalizedOvertimeSpeed = Mathf.InverseLerp(minMaxOvertimeSpeed.x, minMaxOvertimeSpeed.y, overtimeSpeed);
@@ -97,11 +104,13 @@ public class FollowMouse : MonoBehaviour
 
 
         currentTotalSpeed = overtimeSpeed * normalizedDistanceToMouse;
+        speedText.text = currentTotalSpeed.ToString();
+        if(currentTotalSpeed > maxSpeedReached) { maxSpeedReached = currentTotalSpeed; }
 
         Vector3 newTargetPos = (vectorToPoint * currentTotalSpeed * Time.deltaTime);
         //ShipRb.position = Vector3.Lerp(transform.position, transform.position + newTargetPos, 0.3f);
 
-        ShipRb.AddForce(directionToPoint * currentTotalSpeed);
+        
         //ShipRb.velocity = directionToPoint * currentTotalSpeed;
 
 

@@ -22,4 +22,5 @@ public class GameEvents : MonoBehaviour
     public Action<float> OnInvulnerable;
     public Action OnLapCompleted;
     public Action OnHitWall;
+    public Action OnEndScreen;
 }

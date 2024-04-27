@@ -23,6 +23,7 @@ public class ShipHealth : MonoBehaviour
             if(!isInvulnerable)
             {
                 GameEvents.Instance.OnHitEnemy?.Invoke();
+                GameEvents.Instance.OnInvulnerable?.Invoke(invulnerableTime);
             }
         }
     }

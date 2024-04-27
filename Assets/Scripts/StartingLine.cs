@@ -5,7 +5,8 @@ using UnityEngine;
 public class StartingLine : MonoBehaviour
 {
     [SerializeField] Ghosts ghostRecorder;
-
+    [SerializeField] int LapsCompleted;
+    [SerializeField] int lapsToEnd = 10;
     private void OnTriggerEnter(Collider other)
     {
         if(other.tag != "Player") { return; }
@@ -17,6 +18,9 @@ public class StartingLine : MonoBehaviour
         else
         {
             ghostRecorder.AddNewGhost();
+            GameEvents.Instance.OnLapCompleted?.Invoke();
+            LapsCompleted++;
+            if(LapsCompleted == lapsToEnd) { GameEvents.Instance.OnEndScreen?.Invoke(); }
         }
         
     }
