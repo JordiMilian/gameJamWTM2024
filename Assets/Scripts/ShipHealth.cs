@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class ShipHealth : MonoBehaviour
@@ -8,6 +9,13 @@ public class ShipHealth : MonoBehaviour
     [SerializeField] int shipHealth = 3;
     [SerializeField] float invulnerableTime = 2;
     bool isInvulnerable;
+
+    [SerializeField] Image spriteNova;
+    [SerializeField] Sprite spriteNovaFullHp, spriteNova1hp, spriteNovaLastHp;
+    private void Start()
+    {
+        spriteNova.sprite = spriteNovaFullHp;
+    }
     private void OnEnable()
     {
         GameEvents.Instance.OnHitEnemy += TouchedEnemy;
@@ -41,7 +49,16 @@ public class ShipHealth : MonoBehaviour
     void RemoveHealth(int h)
     {
         shipHealth -= h;
-        if(shipHealth <= 0)
+
+        if(shipHealth == 2)
+        {
+            spriteNova.sprite = spriteNova1hp;
+        }
+        if (shipHealth == 1)
+        {
+            spriteNova.sprite = spriteNovaLastHp;
+        }
+        if (shipHealth <= 0)
         {
             SceneManager.LoadScene("SampleScene");
         }
