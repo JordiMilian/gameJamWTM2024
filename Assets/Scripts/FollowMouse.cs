@@ -8,14 +8,19 @@ public class FollowMouse : MonoBehaviour
     [SerializeField] Rigidbody ShipRb;
     //public Vector3 ShipPosition;
     Vector3 directionToMouse;
-    public float ShipSpeed;
-    public Vector2 minMaxSpeed;
+    float overtimeSpeed;
+    public Vector2 minMaxOvertimeSpeed;
+    public Vector2 minMaxDistanceToMouse;
     public float ShipAcceleration;
     float distanceToMouse;
     Vector3 lastValidPosition;
     [SerializeField] float maxCollisionForce;
-    float normalizedSpeed;
+    float normalizedOvertimeSpeed;
+    float normalizedDistanceToMouse;
+    [SerializeField] float maxRotationSpeed;
+    [HideInInspector] public Vector3 mousePositionInPlane;
 
+    [SerializeField] float currentTotalSpeed;
     Camera mainCamera;
     private void Awake()
     {
@@ -27,26 +32,27 @@ public class FollowMouse : MonoBehaviour
     }
     void reduceSpeedPercent(float percent)
     {
-        ShipSpeed = ShipSpeed * (percent / 100);
+        overtimeSpeed = overtimeSpeed * (1- (percent / 100));
     }
     void restartShipSpeed()
     {
-        ShipSpeed = minMaxSpeed.x;
+        overtimeSpeed = minMaxOvertimeSpeed.x;
     }
     private void Update()
     {
-        Vector3 mousePositionInPlane = GetDirectionToMove();
+        mousePositionInPlane = GetDirectionToMove();
         Vector3 vectorToMouse = mousePositionInPlane - transform.position;
+
         distanceToMouse = vectorToMouse.magnitude;
-        
         directionToMouse = (vectorToMouse).normalized;
 
-        ShipSpeed = Mathf.Lerp(ShipSpeed, minMaxSpeed.y, ShipAcceleration);
-        normalizedSpeed = Mathf.InverseLerp(minMaxSpeed.x, minMaxSpeed.y, ShipSpeed);
+        overtimeSpeed = Mathf.Lerp(overtimeSpeed, minMaxOvertimeSpeed.y, ShipAcceleration);
+        normalizedDistanceToMouse = Mathf.InverseLerp(minMaxDistanceToMouse.x, minMaxDistanceToMouse.y, distanceToMouse);
+        normalizedOvertimeSpeed = Mathf.InverseLerp(minMaxOvertimeSpeed.x, minMaxOvertimeSpeed.y, overtimeSpeed);
 
-        if (Input.GetKeyDown(KeyCode.Mouse0)) { restartShipSpeed(); } //Restart speed if click
+        Debug.DrawLine(transform.position, transform.position + directionToMouse);
 
-        Debug.DrawLine(transform.position, transform.position + directionToMouse); 
+        transform.forward = (Vector3.RotateTowards(transform.forward, directionToMouse, maxRotationSpeed * Time.deltaTime * normalizedOvertimeSpeed, 10f)); //Rotate towards mouse
     }
     Vector3 GetDirectionToMove()
     {
@@ -64,22 +70,23 @@ public class FollowMouse : MonoBehaviour
             return lastValidPosition;
         }
         return hit.point;
-        //Vector3 ShipMousePosition = new Vector3(rawMousePosition.x, rawMousePosition.y, transform.position.z);
+
 
     }
     private void FixedUpdate()
     {
-        ShipRb.AddForce(directionToMouse * ShipSpeed);
+        currentTotalSpeed = overtimeSpeed * normalizedDistanceToMouse;
+        ShipRb.AddForce(directionToMouse * currentTotalSpeed);
+        
     }
-    private void OnCollisionEnter(Collision collision) //restart if collision with wall
+    private void OnCollisionEnter(Collision collision) //reduce speed if collision with wall and bounce out with normal
     {
         if(collision.gameObject.tag == "Wall")
         {
-            reduceSpeedPercent(50);
+            reduceSpeedPercent(10);
             Vector3 collisionNormal = collision.contacts[0].normal;
-            ShipRb.AddForce(collisionNormal * maxCollisionForce * normalizedSpeed);
+            ShipRb.AddForce(collisionNormal * maxCollisionForce * normalizedOvertimeSpeed);
         }
-       
     }
      
 }

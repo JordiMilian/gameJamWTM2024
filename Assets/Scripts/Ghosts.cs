@@ -24,7 +24,7 @@ public class Ghosts : MonoBehaviour
     [SerializeField] Transform playerShipTf;
     [SerializeField] Transform ghostShipTf;
     [SerializeField] GameObject GhostPrefab;
-    [SerializeField] bool isRecording;
+    public bool isRecording;
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.R)) { isRecording = !isRecording; }
@@ -49,7 +49,7 @@ public class Ghosts : MonoBehaviour
             if(ghost.reproducingIndex == RecordedPosition.Count - 1) { ghost.isReproducing = false; }
         }
     }
-    void AddNewGhost()
+    public void AddNewGhost()
     {
         GameObject newGhost = Instantiate(GhostPrefab, RecordedPosition[0], Quaternion.identity);
         GhostsList.Add(new GhostClass(newGhost.transform));
