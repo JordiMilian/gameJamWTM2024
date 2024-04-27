@@ -12,7 +12,10 @@ public class FollowMouse : MonoBehaviour
     public Vector2 minMaxSpeed;
     public float ShipAcceleration;
     float distanceToMouse;
-    
+    Vector3 lastValidPosition;
+    [SerializeField] float maxCollisionForce;
+    float normalizedSpeed;
+
     Camera mainCamera;
     private void Awake()
     {
@@ -32,23 +35,37 @@ public class FollowMouse : MonoBehaviour
     }
     private void Update()
     {
-        rawMousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        Vector3 ShipMousePosition = new Vector3 (rawMousePosition.x,rawMousePosition.y, transform.position.z);
-
-        Vector3 vectorToMouse = ShipMousePosition - transform.position;
+        Vector3 mousePositionInPlane = GetDirectionToMove();
+        Vector3 vectorToMouse = mousePositionInPlane - transform.position;
         distanceToMouse = vectorToMouse.magnitude;
         
         directionToMouse = (vectorToMouse).normalized;
 
         ShipSpeed = Mathf.Lerp(ShipSpeed, minMaxSpeed.y, ShipAcceleration);
+        normalizedSpeed = Mathf.InverseLerp(minMaxSpeed.x, minMaxSpeed.y, ShipSpeed);
 
         if (Input.GetKeyDown(KeyCode.Mouse0)) { restartShipSpeed(); } //Restart speed if click
 
-        Debug.DrawLine(transform.position, transform.position + directionToMouse);
+        Debug.DrawLine(transform.position, transform.position + directionToMouse); 
+    }
+    Vector3 GetDirectionToMove()
+    {
+        rawMousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity)) //Recuerda meter en la Layer "Ignore_Raycast" a los objetos que no son de suelo
+        {
+            Debug.Log( "hit: "+ hit.transform.name);
+            lastValidPosition = hit.point;
+        }
+        else
+        {
+            return lastValidPosition;
+        }
+        return hit.point;
+        //Vector3 ShipMousePosition = new Vector3(rawMousePosition.x, rawMousePosition.y, transform.position.z);
 
-        //ShipPosition = Vector3.Lerp(ShipPosition, mousePosition, Time.deltaTime * ShipSpeed);
-        //transform.position = new Vector3(ShipPosition.x,ShipPosition.y,transform.position.y);
- 
     }
     private void FixedUpdate()
     {
@@ -56,7 +73,13 @@ public class FollowMouse : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision) //restart if collision with wall
     {
-        reduceSpeedPercent(50);
+        if(collision.gameObject.tag == "Wall")
+        {
+            reduceSpeedPercent(50);
+            Vector3 collisionNormal = collision.contacts[0].normal;
+            ShipRb.AddForce(collisionNormal * maxCollisionForce * normalizedSpeed);
+        }
+       
     }
      
 }
