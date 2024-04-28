@@ -11562,6 +11562,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8751388935572005600, guid: 5d04af8d41865b84788dbeb5b2b7b37b, type: 3}
+      propertyPath: playerFollowMouse
+      value: 
+      objectReference: {fileID: 1288326673}
+    - target: {fileID: 8751388935572005600, guid: 5d04af8d41865b84788dbeb5b2b7b37b, type: 3}
+      propertyPath: CurrentSpeedUIPanel
+      value: 
+      objectReference: {fileID: 204502202}
     - target: {fileID: 8751388935572005603, guid: 5d04af8d41865b84788dbeb5b2b7b37b, type: 3}
       propertyPath: m_Name
       value: EndScreen (1)
