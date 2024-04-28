@@ -12,6 +12,13 @@ public class ShipHealth : MonoBehaviour
 
     [SerializeField] Image spriteNova;
     [SerializeField] Sprite spriteNovaFullHp, spriteNova1hp, spriteNovaLastHp;
+
+    [SerializeField] GameObject particleDeathGameObject, meshNave;
+
+    private void Awake()
+    {
+        particleDeathGameObject.SetActive(false);
+    }
     private void Start()
     {
         spriteNova.sprite = spriteNovaFullHp;
@@ -60,7 +67,17 @@ public class ShipHealth : MonoBehaviour
         }
         if (shipHealth <= 0)
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            StartCoroutine(DeathScene());
         }
+    }
+
+    IEnumerator DeathScene()
+    {
+        particleDeathGameObject.SetActive(true);
+        meshNave.SetActive(false);
+
+        yield return new WaitForSeconds(3);
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

@@ -395,6 +395,7 @@ MonoBehaviour:
   PanelGO: {fileID: 1616662810}
   CurrentSpeedUIPanel: {fileID: 1426245776}
   playerFollowMouse: {fileID: 1288326673}
+  velocity2Time: {fileID: 1802274973}
 --- !u!1 &258162561 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: f91a036515a53d24d8ef56ac2b351e9b, type: 3}
