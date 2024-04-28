@@ -12082,7 +12082,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1288326672}
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -10.27, y: -2.15, z: -6.6}
+  m_LocalPosition: {x: -13.33, y: -2.15, z: -5.06}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -12774,9 +12774,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clipsAudioSource: {fileID: 1579722453}
   musicAudioSource: {fileID: 1579722455}
-  wallHitSound: {fileID: 8300000, guid: 45958b5fb73a3084a9079dc7d654a3c3, type: 3}
+  wallHitSound: {fileID: 8300000, guid: 3cc1f8705d088f84ba5ee09c1e834e9a, type: 3}
   victorySound: {fileID: 8300000, guid: d2ec4e4ae667fd8459921a7394d736b6, type: 3}
   lapCompletedSound: {fileID: 8300000, guid: 6188c698a1b592f48ad4e58cff80d6e1, type: 3}
+  enemyHit: {fileID: 8300000, guid: 45958b5fb73a3084a9079dc7d654a3c3, type: 3}
 --- !u!82 &1579722455
 AudioSource:
   m_ObjectHideFlags: 0

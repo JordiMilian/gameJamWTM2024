@@ -5,11 +5,13 @@ using UnityEngine;
 public class SoundEffects : MonoBehaviour
 {
     [SerializeField] AudioSource clipsAudioSource, musicAudioSource;
-    [SerializeField] AudioClip wallHitSound, victorySound, lapCompletedSound;
+    [SerializeField] AudioClip wallHitSound, victorySound, lapCompletedSound, enemyHit;
 
     private void OnEnable()
     {
         GameEvents.Instance.OnHitEnemy += hitAudio;
+        GameEvents.Instance.OnHitWall += wallHitAudio;
+
         GameEvents.Instance.OnEndScreen += endScreen;
         GameEvents.Instance.OnLapCompleted += lapCompleted;
     }
@@ -17,11 +19,21 @@ public class SoundEffects : MonoBehaviour
     private void OnDisable()
     {
         GameEvents.Instance.OnHitEnemy -= hitAudio;
+        GameEvents.Instance.OnHitWall -= wallHitAudio;
+
+        GameEvents.Instance.OnEndScreen -= endScreen;
+        GameEvents.Instance.OnLapCompleted -= lapCompleted;
     }
 
     void hitAudio()
     {
+        clipsAudioSource.PlayOneShot(enemyHit);
+    }
+    void wallHitAudio()
+    {
         clipsAudioSource.PlayOneShot(wallHitSound);
+
+        Debug.Log("pared sonido");
     }
 
     void endScreen()

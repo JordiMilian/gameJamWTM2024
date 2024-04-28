@@ -17,6 +17,7 @@ public class StartMenu : MonoBehaviour
 
     private void Start()
     {
+        Cursor.visible = true;
         isScaling = true;
 
         StartCoroutine(PulseButton());

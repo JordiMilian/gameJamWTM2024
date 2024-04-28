@@ -29,12 +29,16 @@ public class FollowMouse : MonoBehaviour
     [SerializeField] float currentTotalSpeed;
     public float normalizedTotalSpeed;
     Camera mainCamera;
+
+    bool gameStared = false;
     private void Awake()
     {
         mainCamera = Camera.main;
+        gameStared = false;
     }
     private void Start()
     {
+        Cursor.visible = false;
         restartShipSpeed();
     }
     void reduceSpeedPercent(float percent)
@@ -81,12 +85,23 @@ public class FollowMouse : MonoBehaviour
         }
         return hit.point;
     }
+
+    private void Update()
+    {
+        if (gameStared) return;
+        if(Input.GetMouseButtonDown(0))
+        {
+            gameStared = true;
+        }
+    }
     private void FixedUpdate()
     {
+        if (!gameStared) return;
         ShipRb.AddForce(directionToPoint * currentTotalSpeed);
     }
     private void LateUpdate()
     {
+        if (!gameStared) return;
 
         mousePositionInPlane = GetRaycastPoint();
         Vector3 vectorToPoint = mousePositionInPlane - transform.position;
@@ -130,6 +145,8 @@ public class FollowMouse : MonoBehaviour
             reduceSpeedPercent(3);
             Vector3 collisionNormal = collision.contacts[0].normal;
             ShipRb.AddForce(collisionNormal * maxCollisionForce * normalizedOvertimeSpeed);
+
+            GameEvents.Instance.OnHitWall?.Invoke();
         }
         Debug.Log("hit: " + collision.gameObject.name);
     }
