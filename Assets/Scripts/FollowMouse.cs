@@ -25,6 +25,7 @@ public class FollowMouse : MonoBehaviour
     [SerializeField] TextMeshProUGUI speedText;
 
     [SerializeField] float currentTotalSpeed;
+    public float normalizedTotalSpeed;
     Camera mainCamera;
     private void Awake()
     {
@@ -108,9 +109,11 @@ public class FollowMouse : MonoBehaviour
         if(currentTotalSpeed > maxSpeedReached) { maxSpeedReached = currentTotalSpeed; }
 
         Vector3 newTargetPos = (vectorToPoint * currentTotalSpeed * Time.deltaTime);
+
+        normalizedTotalSpeed = Mathf.InverseLerp(minMaxOvertimeSpeed.x, minMaxOvertimeSpeed.y, currentTotalSpeed);
         //ShipRb.position = Vector3.Lerp(transform.position, transform.position + newTargetPos, 0.3f);
 
-        
+
         //ShipRb.velocity = directionToPoint * currentTotalSpeed;
 
 
