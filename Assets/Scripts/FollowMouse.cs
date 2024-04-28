@@ -101,7 +101,7 @@ public class FollowMouse : MonoBehaviour
     }
     private void LateUpdate()
     {
-        if (!gameStared) return;
+        //if (!gameStared) return;
 
         mousePositionInPlane = GetRaycastPoint();
         Vector3 vectorToPoint = mousePositionInPlane - transform.position;
