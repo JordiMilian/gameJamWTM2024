@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class FollowMouse : MonoBehaviour
@@ -23,6 +24,7 @@ public class FollowMouse : MonoBehaviour
     [SerializeField] LayerMask NaveLayerMask;
     public float maxSpeedReached;
     [SerializeField] TextMeshProUGUI speedText;
+    [SerializeField] GameObject followMouseObject;
 
     [SerializeField] float currentTotalSpeed;
     public float normalizedTotalSpeed;
@@ -89,6 +91,9 @@ public class FollowMouse : MonoBehaviour
         mousePositionInPlane = GetRaycastPoint();
         Vector3 vectorToPoint = mousePositionInPlane - transform.position;
 
+        Vector3 posicionMouseVisual = new Vector3(mousePositionInPlane.x, followMouseObject.transform.position.y, mousePositionInPlane.z);
+
+        followMouseObject.transform.position = posicionMouseVisual;
         distanceToPoint = vectorToPoint.magnitude;
         directionToPoint = (vectorToPoint).normalized;
        
