@@ -11,6 +11,7 @@ public class EndScreen : MonoBehaviour
     [SerializeField] GameObject CurrentSpeedUIPanel;
     [SerializeField] FollowMouse playerFollowMouse;
     [SerializeField] VelocityToTIme velocity2Time;
+    [SerializeField] GameObject ImageLow, ImageMid, ImageHigh;
     bool gameEnded;
     private void OnEnable()
     {
@@ -24,9 +25,12 @@ public class EndScreen : MonoBehaviour
     {
         PanelGO.SetActive(true);
         CurrentSpeedUIPanel.SetActive(false);
-        string HighestScore = velocity2Time.CalculateTime(playerFollowMouse.maxSpeedReached);
-        maxSpeedText.text = HighestScore;
+        string HighestScoreText = velocity2Time.CalculateTime(playerFollowMouse.maxSpeedReached);
+        maxSpeedText.text = HighestScoreText;
+        int imageToDelete = velocity2Time.ChooseImage(playerFollowMouse.maxSpeedReached);
+        HideEveryImageBut(imageToDelete);
         gameEnded = true;
+        Time.timeScale = 0;
     }
     private void Update()
     {
@@ -35,7 +39,18 @@ public class EndScreen : MonoBehaviour
             if(Input.GetKeyDown(KeyCode.Mouse0))
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                Time.timeScale = 1;
             }
         }
     }
+    void HideEveryImageBut(int chosenIndex)
+    {
+        ImageLow.SetActive(false);
+        ImageMid.SetActive(false);
+        ImageHigh.SetActive(false);
+        if(chosenIndex == 0) { ImageLow.SetActive(true); }
+        if(chosenIndex == 1) { ImageMid.SetActive(true); }
+        if(chosenIndex == 2) { ImageHigh.SetActive(true); }
+    }
+    
 }
