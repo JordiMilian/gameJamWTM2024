@@ -11,7 +11,7 @@ public class EndScreen : MonoBehaviour
     [SerializeField] GameObject CurrentSpeedUIPanel;
     [SerializeField] FollowMouse playerFollowMouse;
     [SerializeField] VelocityToTIme velocity2Time;
-    [SerializeField] GameObject ImageLow, ImageMid, ImageHigh;
+    [SerializeField] GameObject ImageLow, ImageMid, ImageHigh, ImageVictory;
     bool gameEnded;
     private void OnEnable()
     {
@@ -48,9 +48,11 @@ public class EndScreen : MonoBehaviour
         ImageLow.SetActive(false);
         ImageMid.SetActive(false);
         ImageHigh.SetActive(false);
-        if(chosenIndex == 0) { ImageLow.SetActive(true); }
+        ImageVictory.SetActive(false);
+        if (chosenIndex == 0) { ImageLow.SetActive(true); }
         if(chosenIndex == 1) { ImageMid.SetActive(true); }
         if(chosenIndex == 2) { ImageHigh.SetActive(true); }
+        if(chosenIndex == 3) { ImageVictory.SetActive(true); }
     }
     
 }
