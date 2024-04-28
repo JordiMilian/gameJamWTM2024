@@ -6,6 +6,7 @@ using UnityEngine;
 public class GameEffectsManager : MonoBehaviour
 {
     [SerializeField] GameObject ShipMeshRoot;
+    [SerializeField] GameObject imageEffectGameObject;
     [SerializeField] Color flashColor;
     [SerializeField] float flashDelay;
 
@@ -18,6 +19,7 @@ public class GameEffectsManager : MonoBehaviour
     private void Awake()
     {
         meshRenderers = ShipMeshRoot.GetComponentsInChildren<MeshRenderer>();
+        imageEffectGameObject.SetActive(false);
     }
     void hitEnemyEffects()
     {
@@ -32,6 +34,8 @@ public class GameEffectsManager : MonoBehaviour
         float timer = 0;
         float switchTimer = 0;
         int currentOpacity = 1;
+
+        StartCoroutine(FlashScreen(0.5f));
         while (timer < time)
         {
             timer += Time.deltaTime;
@@ -46,6 +50,27 @@ public class GameEffectsManager : MonoBehaviour
             yield return null;  
         }
         SwithOpacity(1);
+    }
+
+    IEnumerator FlashScreen(float time)
+    {
+        float timer = 0;
+        float switchTimer = 0;
+
+        while (timer < time)
+        {
+            timer += Time.deltaTime;
+            switchTimer += Time.deltaTime;
+            if (switchTimer > flashDelay)
+            {
+
+                imageEffectGameObject.SetActive(!imageEffectGameObject.activeSelf);
+
+            }
+
+            yield return null;
+        }
+        imageEffectGameObject.SetActive(false);
     }
     void SwithOpacity(int opacity)
     {

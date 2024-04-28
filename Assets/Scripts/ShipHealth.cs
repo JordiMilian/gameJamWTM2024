@@ -60,7 +60,7 @@ public class ShipHealth : MonoBehaviour
         }
         if (shipHealth <= 0)
         {
-            SceneManager.LoadScene("SampleScene");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 }
