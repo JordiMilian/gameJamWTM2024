@@ -76,8 +76,10 @@ public class ShipHealth : MonoBehaviour
         particleDeathGameObject.SetActive(true);
         meshNave.SetActive(false);
 
+        meshNave.GetComponentInParent<SphereCollider>().enabled = false;
         yield return new WaitForSeconds(3);
 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        GameEvents.Instance.OnEndScreen?.Invoke();
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

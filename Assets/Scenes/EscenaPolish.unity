@@ -879,7 +879,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &379127996
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11568,6 +11568,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 8751388935572005600, guid: 5d04af8d41865b84788dbeb5b2b7b37b, type: 3}
+      propertyPath: ImageVictory
+      value: 
+      objectReference: {fileID: 1843572932}
+    - target: {fileID: 8751388935572005600, guid: 5d04af8d41865b84788dbeb5b2b7b37b, type: 3}
       propertyPath: playerFollowMouse
       value: 
       objectReference: {fileID: 1288326673}
@@ -13406,6 +13410,8 @@ MonoBehaviour:
   ghostRecorder: {fileID: 1663211935}
   LapsCompleted: 0
   lapsToEnd: 8
+  particleDeathGameObject: {fileID: 1153509162}
+  meshNave: {fileID: 1563819381}
 --- !u!33 &2032194540
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -14175,7 +14181,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!222 &2762071019311362982
 CanvasRenderer:
   m_ObjectHideFlags: 0
