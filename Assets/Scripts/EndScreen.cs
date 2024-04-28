@@ -32,7 +32,7 @@ public class EndScreen : MonoBehaviour
         {
             if(Input.GetKeyDown(KeyCode.Mouse0))
             {
-                SceneManager.LoadScene("SampleScene");
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
         }
     }
