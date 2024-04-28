@@ -11,9 +11,12 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/SampleScene 1.unity
     guid: 84dbd391a6375d7469afceb02f774edb
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Menu.unity
     guid: 93e813dcc5661794e8d67123cbca6a73
+  - enabled: 1
+    path: Assets/Scenes/Menu deluxe.unity
+    guid: 57cee0b9b25ab74418b94b65f769fa5f
   - enabled: 1
     path: Assets/Scenes/EscenaPolish.unity
     guid: 56ec678ae3d078f48a5a6e02fafb1cc6
