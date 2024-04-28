@@ -11659,6 +11659,26 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8751388935572005605, guid: 5d04af8d41865b84788dbeb5b2b7b37b, type: 3}
+      propertyPath: agesList.Array.data[0]
+      value: Carta de Pedro Sanchez
+      objectReference: {fileID: 0}
+    - target: {fileID: 8751388935572005605, guid: 5d04af8d41865b84788dbeb5b2b7b37b, type: 3}
+      propertyPath: agesList.Array.data[1]
+      value: Primera WTM Gamejam
+      objectReference: {fileID: 0}
+    - target: {fileID: 8751388935572005605, guid: 5d04af8d41865b84788dbeb5b2b7b37b, type: 3}
+      propertyPath: agesList.Array.data[5]
+      value: WWII
+      objectReference: {fileID: 0}
+    - target: {fileID: 8751388935572005605, guid: 5d04af8d41865b84788dbeb5b2b7b37b, type: 3}
+      propertyPath: agesList.Array.data[13]
+      value: Una piedra muy grande mata algunos reptiles
+      objectReference: {fileID: 0}
+    - target: {fileID: 8751388935572005605, guid: 5d04af8d41865b84788dbeb5b2b7b37b, type: 3}
+      propertyPath: agesList.Array.data[14]
+      value: Un pez sale del agua
+      objectReference: {fileID: 0}
+    - target: {fileID: 8751388935572005605, guid: 5d04af8d41865b84788dbeb5b2b7b37b, type: 3}
       propertyPath: LowestHighestVelocityRank.x
       value: 50
       objectReference: {fileID: 0}
