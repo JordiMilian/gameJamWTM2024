@@ -15,6 +15,10 @@ public class StartMenu : MonoBehaviour
         SceneManager.LoadScene(mainScene);
     }
 
+    void OnAwake()
+    {
+        Application.targetFrameRate = 60;
+    }
     private void Start()
     {
         Cursor.visible = true;

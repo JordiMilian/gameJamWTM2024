@@ -7,6 +7,8 @@ public class StartingLine : MonoBehaviour
     [SerializeField] Ghosts ghostRecorder;
     [SerializeField] int LapsCompleted;
     [SerializeField] int lapsToEnd = 10;
+
+    [SerializeField] GameObject particleDeathGameObject, meshNave;
     private void OnTriggerEnter(Collider other)
     {
         if(other.tag != "Player") { return; }
@@ -20,8 +22,23 @@ public class StartingLine : MonoBehaviour
             ghostRecorder.AddNewGhost();
             GameEvents.Instance.OnLapCompleted?.Invoke();
             LapsCompleted++;
-            if(LapsCompleted == lapsToEnd) { GameEvents.Instance.OnEndScreen?.Invoke(); }
+            if(LapsCompleted == lapsToEnd) 
+            {
+                StartCoroutine(DeathScene());
+                //GameEvents.Instance.OnEndScreen?.Invoke();
+            }
         }
         
+    }
+
+    IEnumerator DeathScene()
+    {
+        particleDeathGameObject.SetActive(true);
+        meshNave.SetActive(false);
+
+        yield return new WaitForSeconds(3);
+
+        GameEvents.Instance.OnEndScreen?.Invoke();
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
