@@ -31,9 +31,7 @@ public class SoundEffects : MonoBehaviour
     }
     void wallHitAudio()
     {
-        clipsAudioSource.PlayOneShot(wallHitSound);
-
-        Debug.Log("pared sonido");
+        clipsAudioSource.PlayOneShot(wallHitSound, 10);
     }
 
     void endScreen()
