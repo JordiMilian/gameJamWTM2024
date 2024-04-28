@@ -10,6 +10,7 @@ public class EndScreen : MonoBehaviour
     [SerializeField] GameObject PanelGO;
     [SerializeField] GameObject CurrentSpeedUIPanel;
     [SerializeField] FollowMouse playerFollowMouse;
+    [SerializeField] VelocityToTIme velocity2Time;
     bool gameEnded;
     private void OnEnable()
     {
@@ -23,7 +24,8 @@ public class EndScreen : MonoBehaviour
     {
         PanelGO.SetActive(true);
         CurrentSpeedUIPanel.SetActive(false);
-        maxSpeedText.text = playerFollowMouse.maxSpeedReached.ToString();
+        string HighestScore = velocity2Time.CalculateTime(playerFollowMouse.maxSpeedReached);
+        maxSpeedText.text = HighestScore;
         gameEnded = true;
     }
     private void Update()

@@ -12,14 +12,15 @@ public class VelocityToTIme : MonoBehaviour
     {
         TestString = CalculateTime(TestVelocity);
     }
-    string CalculateTime(float velocity)
+    public string CalculateTime(float velocity)
     {
-        float timeUnit = LowestHighestVelocityRank.y / agesList.Count;
-        float comparetorTop = timeUnit;
-        float comparetorBottom = 0;
+        float timeUnit = (LowestHighestVelocityRank.y - LowestHighestVelocityRank.x)/ agesList.Count;
+        float comparetorTop = LowestHighestVelocityRank.x + timeUnit;
+        float comparetorBottom = LowestHighestVelocityRank.x;
         for (int i = 0; i < agesList.Count; i++)
         {
             if(velocity > comparetorBottom && velocity <= comparetorTop) { return agesList[i]; }
+            else if(i == 0 && velocity < comparetorBottom) { return agesList[i]; }
             comparetorTop += timeUnit;
             comparetorBottom += timeUnit;   
         }
