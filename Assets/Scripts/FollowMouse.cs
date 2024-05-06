@@ -6,71 +6,63 @@ using UnityEngine;
 
 public class FollowMouse : MonoBehaviour
 {
-    [SerializeField] Vector3 rawMousePosition;
     [SerializeField] Rigidbody ShipRb;
     //public Vector3 ShipPosition;
     Vector3 directionToPoint;
     float overtimeSpeed;
     public Vector2 minMaxOvertimeSpeed;
-    public Vector2 minMaxDistanceToMouse;
-    public float ShipAcceleration;
+    public Vector2 minMaxDistanceForBrakes;
+    public Vector2 minMaxDistanceForAcceleration;
+    
+    [SerializeField] float SecondsForMaxSpeed;
+    public float ShipConstantAcceleration;
     float distanceToPoint;
     Vector3 lastValidPosition;
+    
     [SerializeField] float maxCollisionForce;
     float normalizedOvertimeSpeed;
-    float normalizedDistanceToMouse;
     [SerializeField] float maxRotationSpeed;
     [HideInInspector] public Vector3 mousePositionInPlane;
     [SerializeField] LayerMask NaveLayerMask;
     public float maxSpeedReached;
     [SerializeField] TextMeshProUGUI speedText;
     [SerializeField] GameObject followMouseObject;
-
-    [SerializeField] float currentTotalSpeed;
+    float elapsedTime;
+    [SerializeField] SpriteRenderer placeholderMouseSprite;
+    [SerializeField] Color MinAccelerationColor, MaxAccelerationColor;
+    
     public float normalizedTotalSpeed;
-    Camera mainCamera;
+   
+
+    [Header("Read only")]
+    [SerializeField] float currentTotalSpeed;
+    [SerializeField] float normalizedAcceleration;
+    [SerializeField] float normalizedDistanceForBrake;
+    [SerializeField] float normalizedDistanceForAcceleration;
 
     bool gameStared = false;
     private void Awake()
     {
-        mainCamera = Camera.main;
         gameStared = false;
     }
     private void Start()
     {
         Cursor.visible = false;
         restartShipSpeed();
+        elapsedTime = 0;
     }
     void reduceSpeedPercent(float percent)
     {
-        overtimeSpeed = overtimeSpeed * (1- (percent / 100));
+        //overtimeSpeed = overtimeSpeed * (1- (percent / 100));
+        elapsedTime = elapsedTime * (1 - (percent / 100));
+
     }
     void restartShipSpeed()
     {
         overtimeSpeed = minMaxOvertimeSpeed.x;
     }
-   /* private void Update()
-    {
-        mousePositionInPlane = GetRaycastPoint();
-        Vector3 vectorToPoint = mousePositionInPlane - transform.position;
-
-        distanceToPoint = vectorToPoint.magnitude;
-        directionToPoint = (vectorToPoint).normalized;
-
-        overtimeSpeed = Mathf.Lerp(overtimeSpeed, minMaxOvertimeSpeed.y, ShipAcceleration);
-        //normalizedDistanceToMouse = Mathf.InverseLerp(minMaxDistanceToMouse.x, minMaxDistanceToMouse.y, distanceToPoint);
-        normalizedOvertimeSpeed = Mathf.InverseLerp(minMaxOvertimeSpeed.x, minMaxOvertimeSpeed.y, overtimeSpeed);
-
-        transform.forward = (Vector3.RotateTowards(transform.forward, directionToPoint, maxRotationSpeed * Time.deltaTime * normalizedOvertimeSpeed, 10f)); //Rotate towards mouse
-
-        currentTotalSpeed = overtimeSpeed; //* normalizedDistanceToMouse;
-        Vector3 newTargetPos = (directionToPoint * currentTotalSpeed * Time.deltaTime);
-        ShipRb.position = Vector3.Lerp(transform.position, transform.position + newTargetPos, 0.3f);
-       
-    }*/
     Vector3 GetRaycastPoint()
     {
-        rawMousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         
@@ -101,42 +93,42 @@ public class FollowMouse : MonoBehaviour
     }
     private void LateUpdate()
     {
-        //if (!gameStared) return;
-
+        //Informacion basica para uso general 
         mousePositionInPlane = GetRaycastPoint();
         Vector3 vectorToPoint = mousePositionInPlane - transform.position;
-
-        Vector3 posicionMouseVisual = new Vector3(mousePositionInPlane.x, followMouseObject.transform.position.y, mousePositionInPlane.z);
-
-        followMouseObject.transform.position = posicionMouseVisual;
         distanceToPoint = vectorToPoint.magnitude;
         directionToPoint = (vectorToPoint).normalized;
-       
-        
-        normalizedDistanceToMouse = Mathf.InverseLerp(minMaxDistanceToMouse.x, minMaxDistanceToMouse.y, distanceToPoint);
-        if(normalizedDistanceToMouse > 0.4f) //Acelerar solo si tienes el raton a tope 
-        {
-            overtimeSpeed = Mathf.Lerp(overtimeSpeed, minMaxOvertimeSpeed.y, ShipAcceleration * Time.deltaTime);
-        }
-       
-        normalizedOvertimeSpeed = Mathf.InverseLerp(minMaxOvertimeSpeed.x, minMaxOvertimeSpeed.y, overtimeSpeed);
 
-        transform.forward = (Vector3.RotateTowards(transform.forward, directionToPoint, maxRotationSpeed * Time.deltaTime * normalizedOvertimeSpeed, 10f)); //Rotate towards mouse
+        //Follow mouse visual va ligeramente por encima del mousePosition
+        Vector3 posicionMouseVisual = new Vector3(mousePositionInPlane.x, followMouseObject.transform.position.y, mousePositionInPlane.z);
+        followMouseObject.transform.position = posicionMouseVisual;
 
 
-        currentTotalSpeed = overtimeSpeed * normalizedDistanceToMouse;
+
+        normalizedDistanceForBrake = Mathf.InverseLerp(minMaxDistanceForBrakes.x, minMaxDistanceForBrakes.y, distanceToPoint);
+        normalizedDistanceForAcceleration = Mathf.InverseLerp(minMaxDistanceForAcceleration.x, minMaxDistanceForAcceleration.y, distanceToPoint);
+
+        if (!gameStared) return;
+        placeholderMouseSprite.color = Color.Lerp(MinAccelerationColor, MaxAccelerationColor, normalizedDistanceForAcceleration);
+
+        elapsedTime += Time.deltaTime * normalizedDistanceForAcceleration;
+        normalizedOvertimeSpeed = Mathf.Lerp(0, 1, elapsedTime / SecondsForMaxSpeed);
+
+        overtimeSpeed = Mathf.Lerp(minMaxOvertimeSpeed.x, minMaxOvertimeSpeed.y, normalizedOvertimeSpeed); //Go to the corroutine where its calculated
+         
+        currentTotalSpeed = overtimeSpeed * normalizedDistanceForBrake;
         speedText.text = currentTotalSpeed.ToString();
-        if(currentTotalSpeed > maxSpeedReached) { maxSpeedReached = currentTotalSpeed; }
+        if(currentTotalSpeed > maxSpeedReached) { maxSpeedReached = currentTotalSpeed; } // get the max speed reached for the ranking
 
-        Vector3 newTargetPos = (vectorToPoint * currentTotalSpeed * Time.deltaTime);
+        Vector3 newTargetPos = (vectorToPoint * currentTotalSpeed * Time.deltaTime); // no recuerdo para que era esto
 
-        normalizedTotalSpeed = Mathf.InverseLerp(minMaxOvertimeSpeed.x, minMaxOvertimeSpeed.y, currentTotalSpeed);
+        normalizedTotalSpeed = Mathf.InverseLerp(minMaxOvertimeSpeed.x, minMaxOvertimeSpeed.y, currentTotalSpeed); //Esto es pal reloj de velocidad
+
+        //Rotate towards mouse
+        transform.forward = (Vector3.RotateTowards(transform.forward, directionToPoint, maxRotationSpeed * Time.deltaTime * normalizedOvertimeSpeed, 10f)); 
+
         //ShipRb.position = Vector3.Lerp(transform.position, transform.position + newTargetPos, 0.3f);
-
-
         //ShipRb.velocity = directionToPoint * currentTotalSpeed;
-
-
     }
     private void OnCollisionEnter(Collision collision) //reduce speed if collision with wall and bounce out with normal
     {
@@ -150,5 +142,15 @@ public class FollowMouse : MonoBehaviour
         }
         Debug.Log("hit: " + collision.gameObject.name);
     }
-     
+    IEnumerator overtimeAcceleration(float maxTime)
+    {
+        float elapsedTimer = 0;
+        normalizedOvertimeSpeed = 0;
+        while (elapsedTimer < maxTime)
+        {
+            elapsedTimer += Time.deltaTime * normalizedDistanceForAcceleration;
+            normalizedOvertimeSpeed = Mathf.Lerp(0, 1, elapsedTimer / maxTime);
+            yield return null;
+        }
+    }
 }
