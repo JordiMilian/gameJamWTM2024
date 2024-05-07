@@ -25,7 +25,7 @@ public class EndScreen : MonoBehaviour
     {
         PanelGO.SetActive(true);
         CurrentSpeedUIPanel.SetActive(false);
-        string HighestScoreText = velocity2Time.CalculateTime(playerFollowMouse.maxSpeedReached);
+        string HighestScoreText = velocity2Time.CalculateTime(playerFollowMouse.maxSpeedReached) + playerFollowMouse.maxSpeedReached;
         maxSpeedText.text = HighestScoreText;
         int imageToDelete = velocity2Time.ChooseImage(playerFollowMouse.maxSpeedReached);
         HideEveryImageBut(imageToDelete);
