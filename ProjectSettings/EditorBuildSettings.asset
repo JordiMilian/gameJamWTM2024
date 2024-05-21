@@ -14,9 +14,13 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Menu.unity
     guid: 93e813dcc5661794e8d67123cbca6a73
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Menu deluxe.unity
     guid: 57cee0b9b25ab74418b94b65f769fa5f
+  - enabled: 1
+    path: Assets/Scenes/Menu deluxe ultra super poolished version last iteration
+      final 12.unity
+    guid: 6bb93f1b390a8b24c8a453e33e7873c0
   - enabled: 1
     path: Assets/Scenes/EscenaPolish.unity
     guid: 56ec678ae3d078f48a5a6e02fafb1cc6

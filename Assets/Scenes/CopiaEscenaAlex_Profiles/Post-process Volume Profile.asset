@@ -15,9 +15,9 @@ MonoBehaviour:
   settings:
   - {fileID: 5179323092997648335}
   - {fileID: 8629186816171075357}
-  - {fileID: 770964959424753827}
-  - {fileID: 8333466997105835489}
---- !u!114 &770964959424753827
+  - {fileID: 956472167505996022}
+  - {fileID: 8696962699164089710}
+--- !u!114 &956472167505996022
 MonoBehaviour:
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
@@ -34,14 +34,14 @@ MonoBehaviour:
     overrideState: 1
     value: 1
   gradingMode:
-    overrideState: 1
+    overrideState: 0
     value: 1
   externalLut:
     overrideState: 0
     value: {fileID: 0}
     defaultState: 1
   tonemapper:
-    overrideState: 1
+    overrideState: 0
     value: 0
   toneCurveToeStrength:
     overrideState: 0
@@ -81,17 +81,17 @@ MonoBehaviour:
     overrideState: 0
     value: 0
   saturation:
-    overrideState: 0
-    value: -10
+    overrideState: 1
+    value: 14.8
   brightness:
     overrideState: 0
     value: 0
   postExposure:
-    overrideState: 1
-    value: 0.9
+    overrideState: 0
+    value: 0
   contrast:
     overrideState: 0
-    value: 11
+    value: 0
   mixerRedOutRedIn:
     overrideState: 0
     value: 100
@@ -121,13 +121,13 @@ MonoBehaviour:
     value: 100
   lift:
     overrideState: 1
-    value: {x: 1, y: 1, z: 1, w: -0.02680976}
+    value: {x: 1, y: 1, z: 1, w: 0}
   gamma:
     overrideState: 1
-    value: {x: 1, y: 1, z: 1, w: -0.08042894}
+    value: {x: 1, y: 1, z: 1, w: -0.025412958}
   gain:
     overrideState: 1
-    value: {x: 1, y: 1, z: 1, w: -0.5250852}
+    value: {x: 1, y: 1, z: 1, w: -0.14400688}
   masterCurve:
     overrideState: 0
     value:
@@ -1346,25 +1346,25 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 0.4
+    value: 0.51
   threshold:
     overrideState: 0
     value: 1
   softKnee:
-    overrideState: 0
-    value: 0.5
+    overrideState: 1
+    value: 1
   clamp:
-    overrideState: 0
+    overrideState: 1
     value: 65472
   diffusion:
-    overrideState: 0
-    value: 7
+    overrideState: 1
+    value: 7.55
   anamorphicRatio:
-    overrideState: 0
-    value: 0
+    overrideState: 1
+    value: 1
   color:
-    overrideState: 0
-    value: {r: 1, g: 1, b: 1, a: 1}
+    overrideState: 1
+    value: {r: 0.06289297, g: 0.81286764, b: 1, a: 1}
   fastMode:
     overrideState: 0
     value: 0
@@ -1375,40 +1375,6 @@ MonoBehaviour:
   dirtIntensity:
     overrideState: 0
     value: 0
---- !u!114 &8333466997105835489
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b77c5407dc277943b591ade9e6b18c5, type: 3}
-  m_Name: LensDistortion
-  m_EditorClassIdentifier: 
-  active: 0
-  enabled:
-    overrideState: 1
-    value: 1
-  intensity:
-    overrideState: 0
-    value: -17
-  intensityX:
-    overrideState: 0
-    value: 1
-  intensityY:
-    overrideState: 0
-    value: 1
-  centerX:
-    overrideState: 0
-    value: 0
-  centerY:
-    overrideState: 0
-    value: 0
-  scale:
-    overrideState: 0
-    value: 1
 --- !u!114 &8629186816171075357
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1436,7 +1402,7 @@ MonoBehaviour:
     value: 7.5
   keyValue:
     overrideState: 1
-    value: 2.28
+    value: 2.97
   eyeAdaptation:
     overrideState: 1
     value: 0
@@ -1444,5 +1410,49 @@ MonoBehaviour:
     overrideState: 0
     value: 2.66
   speedDown:
+    overrideState: 0
+    value: 1
+--- !u!114 &8696962699164089710
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40b924e2dad56384a8df2a1e111bb675, type: 3}
+  m_Name: Vignette
+  m_EditorClassIdentifier: 
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 1
+  mode:
+    overrideState: 1
+    value: 0
+  color:
+    overrideState: 1
+    value: {r: 0, g: 0, b: 0, a: 1}
+  center:
+    overrideState: 0
+    value: {x: 0.5, y: 0.5}
+  intensity:
+    overrideState: 1
+    value: 0.419
+  smoothness:
+    overrideState: 1
+    value: 0.147
+  roundness:
+    overrideState: 0
+    value: 1
+  rounded:
+    overrideState: 0
+    value: 0
+  mask:
+    overrideState: 0
+    value: {fileID: 0}
+    defaultState: 1
+  opacity:
     overrideState: 0
     value: 1
