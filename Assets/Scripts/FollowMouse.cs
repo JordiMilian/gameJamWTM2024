@@ -125,7 +125,7 @@ public class FollowMouse : MonoBehaviour
         normalizedTotalSpeed = Mathf.InverseLerp(minMaxOvertimeSpeed.x, minMaxOvertimeSpeed.y, currentTotalSpeed); //Esto es pal reloj de velocidad
 
         //Rotate towards mouse
-        transform.forward = (Vector3.RotateTowards(transform.forward, directionToPoint, maxRotationSpeed * Time.deltaTime * normalizedOvertimeSpeed, 10f)); 
+        transform.forward = (Vector3.RotateTowards(transform.forward, directionToPoint, maxRotationSpeed * normalizedOvertimeSpeed * 0.01f, 10f)); 
 
         //ShipRb.position = Vector3.Lerp(transform.position, transform.position + newTargetPos, 0.3f);
         //ShipRb.velocity = directionToPoint * currentTotalSpeed;
