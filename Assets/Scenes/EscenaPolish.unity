@@ -12138,10 +12138,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShipRb: {fileID: 1288326677}
-  minMaxOvertimeSpeed: {x: 30, y: 250}
+  minMaxOvertimeSpeed: {x: 60, y: 1000}
   minMaxDistanceForBrakes: {x: -1, y: 10}
-  minMaxDistanceForAcceleration: {x: 15, y: 40}
-  SecondsForMaxSpeed: 60
+  minMaxDistanceForAcceleration: {x: 10, y: 40}
+  SecondsForMaxSpeed: 300
   ShipConstantAcceleration: 0
   maxCollisionForce: 600
   maxRotationSpeed: 300

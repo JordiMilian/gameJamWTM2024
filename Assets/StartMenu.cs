@@ -15,6 +15,10 @@ public class StartMenu : MonoBehaviour
         SceneManager.LoadScene(mainScene);
     }
 
+    public void ExitButton()
+    {
+        Application.Quit();
+    }
     void OnAwake()
     {
         Application.targetFrameRate = 60;
