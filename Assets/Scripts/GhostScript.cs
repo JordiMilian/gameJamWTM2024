@@ -19,7 +19,7 @@ public class GhostScript : MonoBehaviour
     {
         if(other.tag == "Player")
         {
-            Debug.LogError("YOU DIED");
+            Debug.Log("YOU DIED");
         }
     }
 }
